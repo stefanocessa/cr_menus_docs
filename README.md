@@ -1,79 +1,89 @@
-# CR Menus — v2.0.0
+# CR Menus --- v2.0.0
 
 ### Advanced Skills, Menu & Role Management System for FiveM (ESX / QBCore)
 
----
-
-## Index
-
-1. [Description](#description)  
-2. [Features](#features)  
-3. [Dependencies](#dependencies)  
-4. [Installation](#installation)  
-5. [Configuration](#configuration)  
-6. [Commands](#commands)  
-7. [Exports (Client)](#exports-client)  
-8. [Exports (Shared — Spells API)](#exports-shared--spells-api)  
-9. [Usage Examples](#usage-examples)  
-10. [FAQ](#faq)
-
----
+------------------------------------------------------------------------
 
 ## Description
 
-**CR Menus** is a complete system for FiveM servers that allows you to manage custom skill/spell menus, assign roles with ranks to players, and handle cosmetic elements (emissive eyes, colored smoke, custom peds, cloaks).
+CR Menus is a complete system for FiveM servers that allows you to
+manage custom skill/spell menus, assign roles with ranks to players, and
+handle cosmetic elements such as emissive eyes, colored smoke, custom
+peds, and cloaks.
 
-It includes:
+It includes: - Persistent draggable Spellbar - Rotating Hotbar - Modern
+NUI interface - MySQL backend (oxmysql)
 
-- A persistent draggable **Spellbar**
-- A rotating **Hotbar**
-- A modern **NUI interface**
-- A MySQL backend for saving data
+Compatible with ESX and QBCore thanks to cr_lib (framework bridge
+available on Tebex).
 
-The system is designed primarily for **fantasy/roleplay** servers (classes, races, factions like vampires, werewolves, guardians, etc.), but it is fully generic and adaptable to any scenario.
+⚠️ The resource name must be exactly: cr_menus
 
-It supports both **ESX and QBCore**, thanks to the internal framework abstraction provided by **`cr_lib`**, available for free on Tebex.  
-`cr_lib` automatically bridges permissions, player data, and framework events.
-
-> ⚠️ The resource name **must be exactly** `cr_menus`.  
-If renamed, the server will automatically shut down after 10 seconds.
-
----
+------------------------------------------------------------------------
 
 ## Features
 
-| Feature                     | Description                                                                 |
-|------------------------------|----------------------------------------------------------------------------|
-| Skill Menu (NUI)            | Graphical panel (default F3) showing all player spells/skills             |
-| Spellbar                    | Quick-access bar with up to 12 slots, customizable via drag & drop        |
-| Hotbar                      | Rotating bar (12 slots, groups of 4) for quick in-game access             |
-| Menu + Rank System          | Create menus with multiple ranks, each with its own spells and stats      |
-| Custom Spells               | Define spells in Lua with cooldown, icon, description and `onUse` logic   |
-| Staff Assignment Panel      | Assign menus, ranks, eyes, smoke, peds, cloaks to players                 |
-| Players List Panel          | Search, edit, and revoke player menus                                     |
-| Transformation System       | Managed via StateBag with customizable callback                           |
-| Sensory System              | Proximity radar with dynamic blips                                         |
-| Persistent KVP              | Spellbar and hotbar saved locally between sessions                        |
-| MySQL Database              | Player and menu data stored via `oxmysql`                                 |
-| In-Game Menu Creator        | Create, edit and delete menus and ranks in-game                           |
+-   Skill Menu (NUI)
+-   Spellbar (up to 12 slots)
+-   Rotating Hotbar (12 total slots, groups of 4)
+-   Menu + Rank System
+-   Custom Lua Spells with cooldowns
+-   Staff Assignment Panels
+-   Player Menu Management
+-   Transformation System (StateBag based)
+-   Sensory Radar System
+-   Persistent KVP storage
+-   MySQL automatic table creation
+-   In-game Menu Creator
 
----
+------------------------------------------------------------------------
 
 ## Dependencies
 
-Install and start **all** of the following resources before `cr_menus`:
+-   oxmysql (required)
+-   ox_lib (required)
+-   cr_lib (required --- ESX/QBCore bridge)
 
-| Resource                                              | Required | Notes                                      |
-|------------------------------------------------------|----------|--------------------------------------------|
-| oxmysql                                              | ✅ Yes   | Async MySQL driver                         |
-| ox_lib                                               | ✅ Yes   | UI, callbacks, animations                  |
-| cr_lib                                               | ✅ Yes   | ESX/QBCore bridge & permission abstraction |
+Database tables are created automatically on first startup.
 
-> A MySQL/MariaDB database must be configured in `oxmysql`.  
-Tables are automatically created on resource startup.
-
----
+------------------------------------------------------------------------
 
 ## Installation
 
-### 1. Place the resource
+1.  Place the folder inside: resources/\[scripts\]/\[cr\]/cr_menus/
+
+2.  Add to server.cfg: ensure cr_lib ensure cr_menus
+
+Make sure cr_lib starts before cr_menus.
+
+------------------------------------------------------------------------
+
+## Framework Load Event
+
+ESX: Config.LoadEvent = 'esx:playerLoaded'
+
+QBCore: Config.LoadEvent = 'QBCore:Client:OnPlayerLoaded'
+
+------------------------------------------------------------------------
+
+## Basic Spell Example
+
+Config.SpellsList = { \['spell_id'\] = { name = "Visible Name",
+description = "Spell description", cooldown = 10, icon = "https://...",
+class = "Optional Class", hideOnLocked = false, lockSpell = function()
+return false end, onUse = function() return true end, }, }
+
+------------------------------------------------------------------------
+
+## FAQ
+
+Q: Does it work only with ESX? A: No. It works with both ESX and QBCore
+thanks to cr_lib.
+
+Q: Are database tables created automatically? A: Yes, via oxmysql.
+
+Q: Can I rename the resource? A: No. It must remain cr_menus.
+
+------------------------------------------------------------------------
+
+CR Menus v2.0.0 All rights reserved.
